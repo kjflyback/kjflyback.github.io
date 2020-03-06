@@ -10,6 +10,7 @@ td{
     text-align: center;
     vertical-align: middle;
 }
+
 table,table tr th, table tr td { border:1px solid black; }
 table{
     
@@ -18,8 +19,12 @@ table{
 </style>
 <script>
     function randBuild(title, max){
-        if(document.getElementById("mathtable") != undefined)
-                document.getElementById("mathtable").remove();
+        
+        var oldmathtable = document.querySelector("#mathtable");
+        if(oldmathtable){
+            document.body.removeChild(oldmathtable);
+        }
+            
         var exists = [];
         var current = 1;
         var maxNumber = max * max;
@@ -40,7 +45,7 @@ table{
                     tableString += "</tr>\n<tr>";
                 }
             }
-            tableString += "<td>" + (number + 1) + "</td>";
+            tableString += "<td><a class='num' onclick='numClick(this)'>" + (number + 1) + "</a></td>";
         }
         tableString += "</tr></table></center></p>";
         console.log(tableString);
@@ -48,8 +53,14 @@ table{
         document.body.appendChild(table = document.createElement("div"));
         table.id = "mathtable";
         table.innerHTML = tableString;
-        document.querySelectorAll("td").forEach(function(e, c, p){
-            e.addEventListener("click", function(ev){
+        
+            /*
+            e.addEventListener("onmouseover", function(ev){
+                document.getElementById("debug").innerText = "start";
+            });
+            
+            e.addEventListener("touchend", function(ev){
+                document.getElementById("debug").innerText = "end";
                 if(parseInt(ev.srcElement.innerText) == window.queue){
                     ev.srcElement.style.backgroundColor = "lightgreen";
                     window.queue ++;
@@ -57,19 +68,28 @@ table{
                     ev.srcElement.style.backgroundColor = "red";
                 }
 
-            })
-        });
+            });
+            
+            
+        });*/
     }
     window.onload = function(){
         randBuild("按顺数找出数字并指出行列",5);
         
     }
-
+    function numClick(obj){
+        if(parseInt(obj.innerText) == window.queue){
+            obj.parentElement.style.backgroundColor = "lightgreen";
+                    window.queue ++;
+                }else{
+                    obj.parentElement.style.backgroundColor = "red";
+                }
+    }
     window.queue = 1;
     function changeMaxSize(obj){
-        console.log(obj);
+        
         window.queue = 1;
-        randBuild("按顺数找出数字并指出行列", parseInt(obj.value));
+        randBuild("按顺数找出数字并指出行列" + obj.value, parseInt(obj.value));
     }
 </script>
 </head>
@@ -82,8 +102,9 @@ table{
         <option>15</option>
         <option>20</option>
     </select>
-</body>
-</html>
+    <div id="debug"> </div>
+</body></html>
+
 
 
 
