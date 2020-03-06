@@ -1,3 +1,61 @@
 <html>
-<a href="June-work/work/index.html">June-work</a>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<style>
+tr{
+    height: 1cm;
+}
+td{
+    width:1cm;
+    text-align: center;
+    vertical-align: middle;
+}
+table,table tr th, table tr td { border:1px solid black; }
+table{
+    
+    border-collapse: collapse;
+}
+</style>
+<script>
+    function randBuild(title, max){
+        
+        var exists = [];
+        var current = 1;
+        var maxNumber = max * max;
+        var tableString = "<table><caption align='top'>" + title +"</caption>";
+        var trBegin = 0;
+        for(var i = 0;i<maxNumber;i++){
+            var number = Math.floor( Math.random() * maxNumber);
+            while(exists.indexOf(number) != -1){
+                number =  Math.floor( Math.random() * maxNumber);
+            }
+            exists.push(number);
+
+            if(i%max == 0){
+                if(trBegin == 0){
+                    tableString += "<tr>";
+                   trBegin = 1;
+                }else{
+                    tableString += "</tr>\n<tr>";
+                }
+            }
+            tableString += "<td>" + (number + 1) + "</td>";
+        }
+        tableString += "</tr></table>";
+        console.log(tableString);
+        var table;
+        document.body.appendChild(table = document.createElement("TABLE"));
+
+        table.innerHTML = tableString;
+    }
+    window.onload = function(){
+        randBuild("按顺数找出数字并指出行列",5);
+    }
+</script>
+</head>
+<body>
+  <a href="June-work/work/index.html">June-work</a>
+    <a href="javascript:location.reload();">重来一次</a><br>
+</body>
 </html>
+
