@@ -18,11 +18,12 @@ table{
 </style>
 <script>
     function randBuild(title, max){
-        
+        if(document.getElementById("mathtable") != undefined)
+                document.getElementById("mathtable").remove();
         var exists = [];
         var current = 1;
         var maxNumber = max * max;
-        var tableString = "<table><caption align='top'>" + title +"</caption>";
+        var tableString = "<p><center><table><caption align='top'>" + title +"</caption>";
         var trBegin = 0;
         for(var i = 0;i<maxNumber;i++){
             var number = Math.floor( Math.random() * maxNumber);
@@ -41,21 +42,48 @@ table{
             }
             tableString += "<td>" + (number + 1) + "</td>";
         }
-        tableString += "</tr></table>";
+        tableString += "</tr></table></center></p>";
         console.log(tableString);
         var table;
-        document.body.appendChild(table = document.createElement("TABLE"));
-
+        document.body.appendChild(table = document.createElement("div"));
+        table.id = "mathtable";
         table.innerHTML = tableString;
+        document.querySelectorAll("td").forEach(function(e, c, p){
+            e.addEventListener("click", function(ev){
+                if(parseInt(ev.srcElement.innerText) == window.queue){
+                    ev.srcElement.style.backgroundColor = "lightgreen";
+                    window.queue ++;
+                }else{
+                    ev.srcElement.style.backgroundColor = "red";
+                }
+
+            })
+        });
     }
     window.onload = function(){
         randBuild("按顺数找出数字并指出行列",5);
+        
+    }
+
+    window.queue = 1;
+    function changeMaxSize(obj){
+        console.log(obj);
+        window.queue = 1;
+        randBuild("按顺数找出数字并指出行列", parseInt(obj.value));
     }
 </script>
 </head>
 <body>
-  <a href="June-work/work/index.html">June-work</a>
+    <a href="June-work/work/index.html">June-work</a><br>
     <a href="javascript:location.reload();">重来一次</a><br>
+    <select id = "maxsize" onchange="changeMaxSize(this)">
+        <option>5</option>
+        <option>10</option>
+        <option>15</option>
+        <option>20</option>
+    </select>
 </body>
 </html>
+
+
 
